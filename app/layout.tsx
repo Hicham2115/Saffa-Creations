@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { LenisProvider } from "@/components/LenisProvider";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import "./globals.css";
@@ -43,6 +44,7 @@ export default function RootLayout({
         <LenisProvider>
           <Header />
           {children}
+          <Footer />
         </LenisProvider>
       </body>
     </html>

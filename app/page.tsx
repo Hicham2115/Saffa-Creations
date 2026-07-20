@@ -4,6 +4,7 @@ import { Philosophy } from "@/components/Philosophy";
 import { FeaturedProducts } from "@/components/FeaturedProducts";
 import { WhyChooseUs } from "@/components/WhyChooseUs";
 import { Testimonials } from "@/components/Testimonials";
+import { Community } from "@/components/Community";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <FeaturedProducts />
       <WhyChooseUs />
       <Testimonials />
+      <Community />
     </>
   );
 }
