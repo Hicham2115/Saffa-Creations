@@ -1,129 +1,223 @@
-import Image, { type StaticImageData } from "next/image";
-import { BadgeCheck, Quote, Star } from "lucide-react";
+import { Heart, Star } from "lucide-react";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import amalPhoto from "@/app/assets/collections/ChatGPT Image Jul 20, 2026, 01_34_10 PM.png";
-import salmaPhoto from "@/app/assets/collections/ChatGPT Image Jul 20, 2026, 01_35_24 PM.png";
-import fatimaPhoto from "@/app/assets/collections/ChatGPT Image Jul 20, 2026, 01_37_02 PM.png";
 
-const testimonials: {
-  quote: string;
+const ratingBreakdown = [
+  { stars: 5, count: 1975 },
+  { stars: 4, count: 129 },
+  { stars: 3, count: 32 },
+  { stars: 2, count: 8 },
+  { stars: 1, count: 3 },
+];
+
+const totalReviews = ratingBreakdown.reduce((sum, r) => sum + r.count, 0);
+
+type Review = {
+  initial: string;
   name: string;
   location: string;
-  photo: StaticImageData;
-}[] = [
+  timeAgo: string;
+  meta: string;
+  headline: string;
+  body: string;
+  product: string;
+  helpful: number;
+  reply?: { name: string; role: string; text: string };
+};
+
+const reviews: Review[] = [
   {
-    quote:
-      "The quality is exceptional and you can feel the love in every stitch. My jellaba from Saffa Creations is my go-to for every special occasion.",
-    name: "Amal E.",
-    location: "Casablanca, Morocco",
-    photo: amalPhoto,
+    initial: "L",
+    name: "Layla M.",
+    location: "Paris",
+    timeAgo: "3 weeks ago",
+    meta: "5'6\" / 168cm · Special occasions · Owned 4 months",
+    headline: "Honestly, it's the only jellaba I reach for now.",
+    body: "I bought the Lina in ivory back in the spring and it hasn't left my closet since. The embroidery still looks as crisp as day one, and the fabric has softened into something that feels like it's always belonged to me. I keep finding excuses to wear it.",
+    product: "LINA JELLABA · IVORY",
+    helpful: 47,
+    reply: {
+      name: "Safaa",
+      role: "Founder, Saffa Creations",
+      text: "Layla — thank you for this. The hood settles in after the first few wears; mine did the same. If you're ever near one of our stockists, stop in — coffee on us. — S",
+    },
   },
   {
-    quote:
-      "Absolutely in love with the details and the fabric. It's timeless, elegant, and makes me feel so confident every time I wear it.",
-    name: "Salma K.",
-    location: "Rabat, Morocco",
-    photo: salmaPhoto,
+    initial: "H",
+    name: "Hafsa K.",
+    location: "London",
+    timeAgo: "1 mo ago",
+    meta: "Everyday wear · 3 months",
+    headline: "Worth every dirham.",
+    body: "I was hesitant about the price at first, but the quality changed my mind within a week. The stitching is impeccable and it moves with you instead of against you. This is the piece I recommend to every friend asking where to start.",
+    product: "NOUR JELLABA · SAGE",
+    helpful: 21,
   },
   {
-    quote:
-      "From the packaging to the final piece, everything was perfect. You can tell this brand truly values craftsmanship and its customers.",
-    name: "Fatima Z.",
-    location: "Marrakech, Morocco",
-    photo: fatimaPhoto,
+    initial: "A",
+    name: "Amira J.",
+    location: "New York",
+    timeAgo: "3 mo ago",
+    meta: "Wedding gift · 5 months",
+    headline: "I cried unboxing it. That's the review.",
+    body: "My mother bought it for our engagement dinner. The box, the tissue, the little card — everything felt considered. And then I put it on and understood why she'd been talking about this brand for months.",
+    product: "YASMIN JELLABA · IVORY",
+    helpful: 63,
   },
 ];
 
+function ReviewCard({
+  review,
+  featured = false,
+}: {
+  review: Review;
+  featured?: boolean;
+}) {
+  return (
+    <div
+      className={`rounded-2xl border border-stone-800 bg-stone-900/40 ${
+        featured ? "p-5 sm:p-6" : "p-5"
+      }`}
+    >
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex items-center gap-2.5">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-amber-100 font-heading text-sm text-stone-900">
+            {review.initial}
+          </div>
+          <div>
+            <div className="font-heading text-sm text-white">
+              {review.name}
+            </div>
+            <div className="text-[0.6rem] tracking-widest text-stone-500">
+              VERIFIED BUYER · {review.location.toUpperCase()}
+            </div>
+          </div>
+        </div>
+        <span className="shrink-0 text-[0.7rem] text-stone-500">
+          {review.timeAgo}
+        </span>
+      </div>
+
+      <div className="mt-3 flex gap-0.5 text-[#c8a078]">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <Star key={i} className="h-3.5 w-3.5 fill-[#c8a078]" aria-hidden="true" />
+        ))}
+      </div>
+
+      <p className="mt-2 text-[0.7rem] tracking-wide text-stone-500">
+        {review.meta}
+      </p>
+
+      <h3
+        className={`mt-3 font-heading text-white ${
+          featured ? "text-lg sm:text-xl" : "text-base"
+        }`}
+      >
+        {review.headline}
+      </h3>
+      <p className="mt-2 text-sm leading-relaxed text-stone-300">
+        {review.body}
+      </p>
+
+      <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-stone-700 px-3 py-1 text-[0.65rem] tracking-widest text-stone-300">
+        <span className="h-1.5 w-1.5 rounded-full bg-[#c8a078]" aria-hidden="true" />
+        {review.product}
+      </div>
+
+      <div className="mt-5 flex items-center gap-1.5 border-t border-stone-800 pt-3 text-[0.65rem] tracking-widest text-stone-500">
+        <Heart className="h-3 w-3" aria-hidden="true" />
+        HELPFUL · {review.helpful}
+      </div>
+
+      {review.reply && (
+        <div className="mt-4 rounded-lg border-l-2 border-[#c8a078] bg-stone-800/40 px-4 py-3">
+          <div className="flex items-center gap-2 text-[0.65rem] tracking-widest">
+            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-amber-100 font-heading text-[0.6rem] text-stone-900">
+              {review.reply.name.charAt(0)}
+            </span>
+            <span className="font-medium text-white">
+              {review.reply.name.toUpperCase()}
+            </span>
+            <span className="text-stone-500">
+              {review.reply.role.toUpperCase()}
+            </span>
+          </div>
+          <p className="mt-2 font-heading text-sm leading-relaxed text-stone-300 italic">
+            {review.reply.text}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function Testimonials() {
   return (
-    <section className="relative overflow-hidden bg-[#f7f3ec] px-6 py-20 sm:px-10 sm:py-28">
-      <div
-        className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-amber-200/25 blur-3xl"
-        aria-hidden="true"
-      />
-      <div
-        className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-amber-100/40 blur-3xl"
-        aria-hidden="true"
-      />
+    <section className="bg-stone-950">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 lg:grid-cols-[380px_1fr]">
+        <ScrollReveal className="border-b border-stone-800 px-6 py-12 sm:px-10 lg:sticky lg:top-0 lg:h-screen lg:border-r lg:border-b-0 lg:py-16">
+          <div className="flex items-center gap-2 text-xs tracking-widest text-[#c8a078]">
+            <span aria-hidden="true">—</span> CUSTOMER REVIEWS
+          </div>
 
-      <ScrollReveal className="relative mx-auto max-w-3xl text-center">
-        <div className="text-xs tracking-[0.3em] text-amber-600">
-          CUSTOMER TESTIMONIALS
-        </div>
-        <h2 className="mt-4 font-heading text-4xl text-stone-900 sm:text-5xl">
-          Loved by women, cherished always.
-        </h2>
-        <div
-          className="mx-auto mt-6 flex items-center justify-center gap-3"
-          aria-hidden="true"
-        >
-          <span className="h-px w-8 bg-amber-600/60" />
-          <span className="text-lg text-amber-600">&#10059;</span>
-          <span className="h-px w-8 bg-amber-600/60" />
-        </div>
-        <p className="mt-6 text-stone-600">
-          Hear from our customers who have made Saffa Creations a part of
-          their most beautiful moments.
-        </p>
-      </ScrollReveal>
+          <h2 className="mt-4 font-heading text-3xl leading-[1.1] text-white sm:text-4xl">
+            Two thousand women.
+            <br />
+            One <span className="text-[#c8a078] italic">thing in common.</span>
+          </h2>
 
-      <div className="relative mx-auto mt-16 grid max-w-6xl grid-cols-1 gap-8 sm:grid-cols-3">
-        {testimonials.map(({ quote, name, location, photo }, index) => (
-          <ScrollReveal key={name} delay={index * 0.1}>
-            <div className="group relative flex h-full flex-col items-center overflow-hidden rounded-3xl border border-stone-200/70 bg-white px-8 py-10 text-center shadow-[0_1px_3px_rgba(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-1.5 hover:border-amber-200 hover:shadow-[0_24px_48px_-20px_rgba(180,120,40,0.3)]">
-              <span
-                className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-amber-600 transition-transform duration-300 group-hover:scale-x-100"
-                aria-hidden="true"
-              />
-
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-amber-50 transition-colors duration-300 group-hover:bg-amber-100">
-                <Quote
-                  className="h-5 w-5 text-amber-600"
-                  strokeWidth={1.75}
+          <div className="mt-8">
+            <div className="flex items-end gap-1">
+              <span className="font-heading text-4xl text-white">4.9</span>
+              <span className="mb-0.5 text-sm text-stone-400">/5</span>
+            </div>
+            <div className="mt-1.5 flex gap-1 text-[#c8a078]">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star
+                  key={i}
+                  className="h-3.5 w-3.5 fill-[#c8a078]"
                   aria-hidden="true"
                 />
-              </div>
-
-              <p className="mt-5 leading-relaxed text-stone-700">{quote}</p>
-
-              <span
-                className="mt-6 block h-px w-8 bg-amber-600/40 transition-all duration-300 group-hover:w-12"
-                aria-hidden="true"
-              />
-
-              <div className="mt-6 flex flex-col items-center">
-                <div className="relative h-16 w-16 overflow-hidden rounded-full ring-2 ring-amber-100 ring-offset-2 ring-offset-white transition-all duration-300 group-hover:ring-amber-300">
-                  <Image
-                    src={photo}
-                    alt={name}
-                    fill
-                    className="object-cover"
-                    style={{ objectPosition: "50% 15%" }}
-                  />
-                </div>
-                <div className="mt-3 flex items-center gap-1">
-                  <h3 className="font-heading text-lg text-stone-900">
-                    {name}
-                  </h3>
-                  <BadgeCheck
-                    className="h-4 w-4 text-amber-600"
-                    aria-hidden="true"
-                  />
-                </div>
-                <div className="mt-1 flex gap-0.5 text-amber-500">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star
-                      key={i}
-                      className="h-4 w-4 fill-amber-500"
-                      aria-hidden="true"
-                    />
-                  ))}
-                </div>
-                <p className="mt-1 text-sm text-stone-500">{location}</p>
-              </div>
+              ))}
             </div>
+            <p className="mt-2 text-[0.7rem] tracking-widest text-stone-400">
+              FROM {totalReviews.toLocaleString()} VERIFIED BUYERS · 96%
+              RECOMMEND
+            </p>
+          </div>
+
+          <div className="mt-6 space-y-2.5">
+            {ratingBreakdown.map(({ stars, count }) => (
+              <div
+                key={stars}
+                className="flex items-center gap-3 text-[0.7rem] text-stone-400"
+              >
+                <span className="w-5 shrink-0 tracking-wide">{stars}★</span>
+                <div className="h-1 flex-1 rounded-full bg-stone-800">
+                  <div
+                    className="h-full rounded-full bg-[#c8a078]"
+                    style={{ width: `${(count / totalReviews) * 100}%` }}
+                  />
+                </div>
+                <span className="w-9 shrink-0 text-right">
+                  {count.toLocaleString()}
+                </span>
+              </div>
+            ))}
+          </div>
+        </ScrollReveal>
+
+        <div className="px-6 py-12 sm:px-10 lg:py-16">
+          <ScrollReveal>
+            <ReviewCard review={reviews[0]} featured />
           </ScrollReveal>
-        ))}
+          <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
+            {reviews.slice(1).map((review, index) => (
+              <ScrollReveal key={review.name} delay={(index + 1) * 0.1}>
+                <ReviewCard review={review} />
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
