@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight, Heart } from "lucide-react";
 import linaJellaba from "@/app/assets/collections/ChatGPT Image Jul 20, 2026, 01_34_10 PM.png";
 import nourJellaba from "@/app/assets/collections/ChatGPT Image Jul 20, 2026, 01_35_24 PM.png";
@@ -100,13 +101,13 @@ export function FeaturedProducts() {
       </div>
 
       <div className="mt-16 flex justify-center">
-        <a
+        <Link
           href="/collections"
           className="flex items-center gap-2 border border-amber-600/70 px-8 py-3 text-xs tracking-[0.2em] text-amber-600 transition-colors hover:bg-amber-600/10"
         >
           VIEW ALL COLLECTION
           <ArrowRight className="h-4 w-4" aria-hidden="true" />
-        </a>
+        </Link>
       </div>
     </section>
   );

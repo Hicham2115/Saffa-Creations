@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Heart, Search, ShoppingBag } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -30,11 +31,11 @@ export function Header() {
       )}
     >
       <nav className="hidden items-center gap-8 text-xs tracking-[0.2em] lg:flex">
-        <a href="/collections">COLLECTIONS</a>
-        <a href="/collections">NEW ARRIVALS</a>
+        <Link href="/collections">COLLECTIONS</Link>
+        <Link href="/collections">NEW ARRIVALS</Link>
       </nav>
 
-      <a href="/" className="text-center">
+      <Link href="/" className="text-center">
         <div className="font-heading text-xl tracking-[0.35em] sm:text-2xl">
           SAFFA CREATIONS
         </div>
@@ -46,7 +47,7 @@ export function Header() {
         >
           SINCE 2016 · MOROCCO
         </div>
-      </a>
+      </Link>
 
       <div className="flex items-center gap-6">
         <nav className="hidden items-center gap-8 text-xs tracking-[0.2em] lg:flex">
