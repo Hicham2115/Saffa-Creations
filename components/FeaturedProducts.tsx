@@ -6,7 +6,7 @@ import yasminJellaba from "@/app/assets/collections/ChatGPT Image Jul 20, 2026, 
 import mayaJellaba from "@/app/assets/collections/ChatGPT Image Jul 20, 2026, 01_38_12 PM.png";
 
 const products = [
-  {
+  {.  
     name: "Lina Jellaba",
     price: "2,400.00 MAD",
     image: linaJellaba,
