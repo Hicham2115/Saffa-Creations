@@ -1,18 +1,49 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Heart, Search, ShoppingBag } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export function Header() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const [scrolledPast, setScrolledPast] = useState(false);
+
+  useEffect(() => {
+    if (!isHome) return;
+    const onScroll = () => setScrolledPast(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [isHome]);
+
+  const scrolled = !isHome || scrolledPast;
+
   return (
-    <header className="absolute inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-6 text-white sm:px-10">
+    <header
+      className={cn(
+        "fixed inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-6 transition-all duration-300 sm:px-10",
+        scrolled
+          ? "bg-[#f7f3ec]/95 py-4 text-stone-900 shadow-sm backdrop-blur-sm"
+          : "bg-transparent text-white",
+      )}
+    >
       <nav className="hidden items-center gap-8 text-xs tracking-[0.2em] lg:flex">
-        <a href="#">COLLECTIONS</a>
-        <a href="#">NEW ARRIVALS</a>
+        <a href="/collections">COLLECTIONS</a>
+        <a href="/collections">NEW ARRIVALS</a>
       </nav>
 
-      <a href="#" className="text-center">
+      <a href="/" className="text-center">
         <div className="font-heading text-xl tracking-[0.35em] sm:text-2xl">
           SAFFA CREATIONS
         </div>
-        <div className="mt-1 text-[0.65rem] tracking-[0.3em] text-white/80">
+        <div
+          className={cn(
+            "mt-1 text-[0.65rem] tracking-[0.3em] transition-colors duration-300",
+            scrolled ? "text-stone-500" : "text-white/80",
+          )}
+        >
           SINCE 2016 · MOROCCO
         </div>
       </a>

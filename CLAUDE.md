@@ -29,7 +29,7 @@ Next.js 16 (App Router), React 19, TypeScript (strict), Tailwind CSS v4.
   1. `<body>` is `relative` — it's the positioning context for the header overlay.
   2. `<LoadingScreen />` — fixed full-screen overlay, animates out with GSAP (`useGSAP`) on mount and unmounts itself (not just hides).
   3. `<LenisProvider>` — wraps everything below it, drives smooth scroll and syncs Lenis's raf with `gsap.ticker`.
-  4. `<Header />` inside the provider — positioned `absolute inset-x-0 top-0`, transparent, so it overlays full-bleed hero imagery rather than pushing content down.
+  4. `<Header />` inside the provider — a client component (`components/layout/Header.tsx`) positioned `fixed inset-x-0 top-0`, transparent over hero imagery until scrolled, then it switches to the ivory `#f7f3ec` background with dark text via a `window.scrollY` listener.
 - **Component layout**: `components/layout/` holds structural chrome (`Header`); `components/ui/` holds shadcn primitives; top-level `components/` holds page sections (`Hero`, `Collections`, `Philosophy`, …) composed directly into `app/page.tsx`.
 - **Images**: marketing imagery lives in `app/assets/` (not `public/`) and is imported directly into the component that uses it, so Next.js can statically optimize it. The established pattern is a `relative`/`min-h-screen` (or `aspect-*`) wrapper with `next/image` using `fill` + `object-cover`.
 - **Metadata**: root layout sets the default `title.template`/`description`; per the stack conventions below, every route should export its own `metadata` (or `generateMetadata` for dynamic routes).

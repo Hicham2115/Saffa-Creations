@@ -101,7 +101,7 @@ export function FeaturedProducts() {
 
       <div className="mt-16 flex justify-center">
         <a
-          href="#"
+          href="/collections"
           className="flex items-center gap-2 border border-amber-600/70 px-8 py-3 text-xs tracking-[0.2em] text-amber-600 transition-colors hover:bg-amber-600/10"
         >
           VIEW ALL COLLECTION
