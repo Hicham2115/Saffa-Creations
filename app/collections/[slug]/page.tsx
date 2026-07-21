@@ -54,7 +54,7 @@ export default async function ProductPage({
     <main className="bg-[#f7f3ec] px-6 pt-32 pb-24 sm:px-10 sm:pt-40">
       <nav
         aria-label="Breadcrumb"
-        className="mx-auto flex max-w-6xl items-center gap-2 text-xs tracking-[0.15em] text-stone-500"
+        className="mx-auto flex max-w-6xl flex-wrap items-center gap-2 text-xs tracking-[0.15em] text-stone-500"
       >
         <Link href="/" className="hover:text-amber-600">
           HOME

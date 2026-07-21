@@ -3,13 +3,25 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Heart, Search, ShoppingBag } from "lucide-react";
+import { Heart, Menu, Search, ShoppingBag, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+const primaryLinks = [
+  { label: "COLLECTIONS", href: "/collections" },
+  { label: "NEW ARRIVALS", href: "/collections" },
+];
+
+const secondaryLinks = [
+  { label: "SEARCH", href: "#" },
+  { label: "ABOUT", href: "#" },
+  { label: "OUR STORY", href: "#" },
+];
 
 export function Header() {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const [scrolledPast, setScrolledPast] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     if (!isHome) return;
@@ -19,21 +31,50 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [isHome]);
 
-  const scrolled = !isHome || scrolledPast;
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
+  const scrolled = !isHome || scrolledPast || menuOpen;
 
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-20 flex items-center justify-between px-6 py-6 transition-all duration-300 sm:px-10",
+        "fixed inset-x-0 top-0 z-30 flex items-center justify-between px-6 py-6 transition-all duration-300 sm:px-10",
         scrolled
           ? "bg-[#f7f3ec]/95 py-4 text-stone-900 shadow-sm backdrop-blur-sm"
           : "bg-transparent text-white",
       )}
     >
-      <nav className="hidden items-center gap-8 text-xs tracking-[0.2em] lg:flex">
-        <Link href="/collections">COLLECTIONS</Link>
-        <Link href="/collections">NEW ARRIVALS</Link>
-      </nav>
+      <div className="flex items-center lg:w-48">
+        <nav className="hidden items-center gap-8 text-xs tracking-[0.2em] lg:flex">
+          {primaryLinks.map((link) => (
+            <Link key={link.label} href={link.href}>
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+        <button
+          type="button"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((open) => !open)}
+          className="lg:hidden"
+        >
+          {menuOpen ? (
+            <X className="h-5 w-5" aria-hidden="true" />
+          ) : (
+            <Menu className="h-5 w-5" aria-hidden="true" />
+          )}
+        </button>
+      </div>
 
       <Link href="/" className="text-center">
         <div className="font-heading text-xl tracking-[0.35em] sm:text-2xl">
@@ -49,11 +90,13 @@ export function Header() {
         </div>
       </Link>
 
-      <div className="flex items-center gap-6">
+      <div className="flex items-center justify-end gap-6 lg:w-48">
         <nav className="hidden items-center gap-8 text-xs tracking-[0.2em] lg:flex">
-          <a href="#">SEARCH</a>
-          <a href="#">ABOUT</a>
-          <a href="#">OUR STORY</a>
+          {secondaryLinks.map((link) => (
+            <a key={link.label} href={link.href}>
+              {link.label}
+            </a>
+          ))}
         </nav>
         <button type="button" aria-label="Search" className="lg:hidden">
           <Search className="h-5 w-5" aria-hidden="true" />
@@ -65,6 +108,20 @@ export function Header() {
           <ShoppingBag className="h-5 w-5" aria-hidden="true" />
         </button>
       </div>
+
+      {menuOpen && (
+        <nav className="absolute inset-x-0 top-full flex flex-col gap-1 border-t border-stone-200 bg-[#f7f3ec]/95 px-6 py-6 text-stone-900 shadow-sm backdrop-blur-sm sm:px-10 lg:hidden">
+          {[...primaryLinks, ...secondaryLinks].map((link) => (
+            <Link
+              key={link.label}
+              href={link.href}
+              className="border-b border-stone-200 py-3 text-xs tracking-[0.2em] last:border-none"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+      )}
     </header>
   );
 }
