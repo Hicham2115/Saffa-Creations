@@ -38,17 +38,17 @@ export function LoadingScreen() {
   return (
     <div
       ref={container}
-      className="fixed inset-0 z-9999 flex flex-col items-center justify-center gap-5 bg-[#f7f3ec]"
+      className="fixed inset-0 z-9999 flex flex-col items-center justify-center gap-4 bg-[#f7f3ec] px-6 sm:gap-5"
     >
       <span
         ref={logo}
-        className="font-heading text-3xl tracking-[0.4em] text-stone-900 sm:text-4xl"
+        className="font-heading text-xl tracking-[0.2em] whitespace-nowrap text-stone-900 sm:text-3xl sm:tracking-[0.4em] md:text-4xl"
       >
         SAFFA CREATIONS
       </span>
       <span
         ref={line}
-        className="h-px w-24 origin-center bg-amber-600/80 sm:w-32"
+        className="h-px w-16 origin-center bg-amber-600/80 sm:w-24 md:w-32"
       />
     </div>
   );
