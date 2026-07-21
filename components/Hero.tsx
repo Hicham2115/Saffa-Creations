@@ -1,16 +1,24 @@
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import bgHero from "@/app/assets/bghero.png";
+import mobileHero from "@/app/assets/mobilehero.png";
 
 export function Hero() {
   return (
     <div className="relative min-h-screen w-full overflow-hidden">
       <Image
+        src={mobileHero}
+        alt="Model wearing an embroidered Moroccan jellaba in a courtyard"
+        fill
+        priority
+        className="block object-cover sm:hidden"
+      />
+      <Image
         src={bgHero}
         alt="Model wearing an embroidered Moroccan jellaba in a courtyard"
         fill
         priority
-        className="object-cover"
+        className="hidden object-cover sm:block"
       />
       <div className="absolute inset-0 bg-linear-to-r from-black/60 via-black/20 to-black/10" />
       <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-black/30" />

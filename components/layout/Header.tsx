@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Heart, Menu, Search, ShoppingBag, X } from "lucide-react";
+import { Heart, Menu, ShoppingBag, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const primaryLinks = [
@@ -43,7 +43,7 @@ export function Header() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-30 flex items-center justify-between px-6 py-6 transition-all duration-300 sm:px-10",
+        "fixed inset-x-0 top-0 z-30 flex items-center justify-between px-4 py-5 transition-all duration-300 sm:px-10 sm:py-6",
         scrolled
           ? "bg-[#f7f3ec]/95 py-4 text-stone-900 shadow-sm backdrop-blur-sm"
           : "bg-transparent text-white",
@@ -65,20 +65,20 @@ export function Header() {
           className="lg:hidden"
         >
           {menuOpen ? (
-            <X className="h-5 w-5" aria-hidden="true" />
+            <X className="h-4.5 w-4.5 sm:h-5 sm:w-5" aria-hidden="true" />
           ) : (
-            <Menu className="h-5 w-5" aria-hidden="true" />
+            <Menu className="h-4.5 w-4.5 sm:h-5 sm:w-5" aria-hidden="true" />
           )}
         </button>
       </div>
 
-      <Link href="/" className="text-center">
-        <div className="font-heading text-xl tracking-[0.35em] sm:text-2xl">
+      <Link href="/" className="min-w-0 px-2 text-center">
+        <div className="font-heading text-sm tracking-[0.15em] whitespace-nowrap sm:text-xl sm:tracking-[0.35em] lg:text-2xl">
           SAFFA CREATIONS
         </div>
         <div
           className={cn(
-            "mt-1 text-[0.65rem] tracking-[0.3em] transition-colors duration-300",
+            "mt-1 text-[0.55rem] tracking-[0.2em] whitespace-nowrap transition-colors duration-300 sm:text-[0.65rem] sm:tracking-[0.3em]",
             scrolled ? "text-stone-500" : "text-white/80",
           )}
         >
@@ -86,7 +86,7 @@ export function Header() {
         </div>
       </Link>
 
-      <div className="flex items-center justify-end gap-6 lg:w-48">
+      <div className="flex items-center justify-end gap-4 sm:gap-6 lg:w-48">
         <nav className="hidden items-center gap-8 text-xs tracking-[0.2em] lg:flex">
           {secondaryLinks.map((link) => (
             <a key={link.label} href={link.href}>
@@ -94,19 +94,16 @@ export function Header() {
             </a>
           ))}
         </nav>
-        <button type="button" aria-label="Search" className="lg:hidden">
-          <Search className="h-5 w-5" aria-hidden="true" />
-        </button>
         <button type="button" aria-label="Wishlist">
-          <Heart className="h-5 w-5" aria-hidden="true" />
+          <Heart className="h-4.5 w-4.5 sm:h-5 sm:w-5" aria-hidden="true" />
         </button>
         <button type="button" aria-label="Cart">
-          <ShoppingBag className="h-5 w-5" aria-hidden="true" />
+          <ShoppingBag className="h-4.5 w-4.5 sm:h-5 sm:w-5" aria-hidden="true" />
         </button>
       </div>
 
       {menuOpen && (
-        <nav className="absolute inset-x-0 top-full flex flex-col gap-1 border-t border-stone-200 bg-[#f7f3ec]/95 px-6 py-6 text-stone-900 shadow-sm backdrop-blur-sm sm:px-10 lg:hidden">
+        <nav className="absolute inset-x-0 top-full flex flex-col gap-1 border-t border-stone-200 bg-[#f7f3ec]/95 px-4 py-6 text-stone-900 shadow-sm backdrop-blur-sm sm:px-10 lg:hidden">
           {[...primaryLinks, ...secondaryLinks].map((link) => (
             <Link
               key={link.label}
