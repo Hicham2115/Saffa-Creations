@@ -32,10 +32,6 @@ export function Header() {
   }, [isHome]);
 
   useEffect(() => {
-    setMenuOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
@@ -115,6 +111,7 @@ export function Header() {
             <Link
               key={link.label}
               href={link.href}
+              onClick={() => setMenuOpen(false)}
               className="border-b border-stone-200 py-3 text-xs tracking-[0.2em] last:border-none"
             >
               {link.label}
